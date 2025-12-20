@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login Terpisah</title>
+</head>
+
+<body>
+    <h2>Login</h2>
+
+    <form id="loginForm">
+        <div>
+            <label>Email</label><br />
+            <input type="email" name="email" required />
+        </div>
+        <br />
+        <div>
+            <label>Password</label><br />
+            <input type="password" name="password" required />
+        </div>
+        <br />
+        <button type="submit">Login</button>
+    </form>
+
+    <p id="msg"></p>
+
+    <script>
+        const form = document.getElementById("loginForm");
+        const msg = document.getElementById("msg");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const data = {
+                email: form.email.value,
+                password: form.password.value,
+            };
+
+            const res = await fetch("http://localhost:3000/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            const result = await res.json();
+            msg.textContent = result.msg;
+            msg.style.color = result.success ? "green" : "red";
+        });
+    </script>
+</body>
+
+</html>
